@@ -53,6 +53,16 @@ const NodeHostSchema = z
   .strict()
   .optional();
 
+const LegacyCanvasHostSchema = z
+  .object({
+    enabled: z.boolean().optional(),
+    root: z.string().optional(),
+    port: z.number().int().positive().optional(),
+    liveReload: z.boolean().optional(),
+  })
+  .strict()
+  .optional();
+
 const AccessGroupsSchema = z
   .record(
     z.string().min(1),
@@ -792,15 +802,6 @@ export const OpenClawSchema = z
       })
       .strict()
       .optional(),
-    canvasHost: z
-      .object({
-        enabled: z.boolean().optional(),
-        root: z.string().optional(),
-        port: z.number().int().positive().optional(),
-        liveReload: z.boolean().optional(),
-      })
-      .strict()
-      .optional(),
     talk: TalkSchema.optional(),
     gateway: z
       .object({
@@ -1112,6 +1113,7 @@ export const OpenClawSchema = z
       })
       .strict()
       .optional(),
+    canvasHost: LegacyCanvasHostSchema,
     surfaces: z
       .record(
         z.string(),
